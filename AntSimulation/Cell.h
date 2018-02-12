@@ -6,13 +6,12 @@ class Cell {
 	public:
 		double pLevel = 0.0;
 		void evaporate();
-		void add(bool returning);
+		void add(double amount);
 		bool isFull();
+		void moveHere();
 		Cell() = default;
 
-	private:
+	protected:
 		double EVAPORATION_RATE = 1.0 / 30.0;
-		double SCOUT_AMOUNT = 1.0;
-		double RETURN_AMOUNT = 4.0;
-		int MAX_POP_SIZE = 4;
+		int MAX_POP_SIZE = 20;
 };

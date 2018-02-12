@@ -1,12 +1,13 @@
 #pragma once
 #include "Cell.h"
-#include "Ant.h"
 
 class World {
 	private:
 		double WIDTH, HEIGHT;
-		Cell ***world;
 
 	public:
+		Cell ***position;
 		World(double width, double height);
+		~World();
+		bool inBounds(int x, int y);
 };

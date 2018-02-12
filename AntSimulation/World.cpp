@@ -1,16 +1,20 @@
 #include "World.h"
 
 World::World(double width, double height) : WIDTH(width), HEIGHT(height) {
-	world = new Cell**[WIDTH];
+	position = new Cell**[WIDTH];
 	for (int i = 0; i < WIDTH; i++) {
-		world[i] = new Cell*[HEIGHT];
+		position[i] = new Cell*[HEIGHT];
 		for (int j = 0; j < HEIGHT; j++)
-			world[i][j] = new Cell();
+			position[i][j] = new Cell();
 	}
 }
 
 World::~World() {
 	for (int i = 0; i < WIDTH; i++)
 		for (int j = 0; j < HEIGHT; j++)
-			delete world[i][j];
+			delete position[i][j];
+}
+
+bool World::inBounds(int x, int y) {
+	return (x < WIDTH && x > -1 && y < HEIGHT && y > -1);
 }
