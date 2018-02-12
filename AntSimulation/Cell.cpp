@@ -7,3 +7,7 @@ void Cell::evaporate() {
 void Cell::add(bool returning) {
 	pLevel += (returning) ? RETURN_AMOUNT : SCOUT_AMOUNT;
 }
+
+bool Cell::isFull() {
+	return popSize < MAX_POP_SIZE;
+}
