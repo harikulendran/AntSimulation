@@ -10,9 +10,13 @@ Ant::Ant(World* _world, int x, int y) : world(_world), cPos(x,y) {
 	srand(time(NULL));
 }
 
-void Ant::move() {
-	double pL = world->position[cPos.x + 1][cPos.y]->pLevel;
-	double pR = world->position[cPos.x][cPos.y + 1]->pLevel;
+void Ant::move(bool isRaid) {
+	int mod = (isRaid) ? 1 : -1;
+	double pMax = (isRaid) ? RAID_MAX : RETURN_MAX;
+	double pAmt = (isRaid) ? RAID_AMOUNT : RETURN_AMOUNT;
+
+	double pL = world->position[cPos.x + mod][cPos.y]->pLevel;
+	double pR = world->position[cPos.x][cPos.y + mod]->pLevel;
 
 	double pM = 0.5*(1 + tanh(((pL + pR) / 100.0) - 1));
 
@@ -20,10 +24,25 @@ void Ant::move() {
 		return;
 
 	double probL = pow(5 + pL, 2) / (pow(5 + pL, 2) + pow(5 + pR, 2));
-	double probR = pow(5 + pR, 2) / (pow(5 + pL, 2) + pow(5 + pR, 2));
 
-	if (probL > probR)
+	if ((rand() % 100) / 100.0 < probL) {
+		if (checkCell(cPos.x + mod, cPos.y)) {
+			cPos.x += mod;
+			updateWorld(pMax, pAmt);
+		}
+	} else {
+		if (checkCell(cPos.x, cPos.y + mod)) {
+			cPos.y += mod;
+			updateWorld(pMax, pAmt);
+		}
+	}
+}
 
+void Ant::updateWorld(double pMax, double pAmt) {
+	currentLocation = world->position[cPos.x][cPos.y];
+	currentLocation->moveHere();
+	if (currentLocation->pLevel < pMax)
+		currentLocation->add(pAmt);
 }
 
 bool Ant::checkCell(int x, int y) {
