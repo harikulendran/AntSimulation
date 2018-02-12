@@ -15,12 +15,15 @@ class Ant {
 
 	private:
 		Cell* currentLocation = nullptr;
-		Pos cPos;
 		World* world;
 		bool checkCell(int x, int y);
 		void updateWorld(double pMax, double pAmt);
 
 	public:
 		Ant(World* _world, int x, int y);
-		void move(bool isRaid);
+		void move();
+		Pos cPos;
+		bool hasPrey = false;
+		bool raiding = true;
+		void checkFood();
 };
