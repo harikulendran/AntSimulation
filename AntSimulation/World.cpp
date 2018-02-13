@@ -1,11 +1,11 @@
 #include "World.h"
 
-World::World(double width, double height) : WIDTH(width), HEIGHT(height) {
+World::World(double width, double height, int percent, int richness) : WIDTH(width), HEIGHT(height) {
 	position = new Cell**[WIDTH];
 	for (int i = 0; i < WIDTH; i++) {
 		position[i] = new Cell*[HEIGHT];
 		for (int j = 0; j < HEIGHT; j++)
-			position[i][j] = new Cell();
+			position[i][j] = new Cell(percent, richness);
 	}
 }
 

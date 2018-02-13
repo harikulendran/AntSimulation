@@ -1,6 +1,7 @@
 #pragma once
 
 #include <allegro5\allegro.h>
+#include <string>
 
 class Display {
 	public:
@@ -9,7 +10,9 @@ class Display {
 
 	public:
 		void run();
-		Display();
+		Display(int i, bool low);
+		std::string name = "";
+		int percentage, richness;
 
 	private:
 

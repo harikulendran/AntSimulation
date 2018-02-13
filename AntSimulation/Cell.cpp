@@ -2,10 +2,10 @@
 #include <random>
 #include <time.h>
 
-Cell::Cell() {
+Cell::Cell(int percent, int richness) {
 	srand(time(NULL));
-	if (rand() % 100 < 50)
-		source = 1;
+	if (rand() % 100 < percent)
+		source = richness;
 }
 
 void Cell::evaporate() {

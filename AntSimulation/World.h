@@ -7,7 +7,8 @@ class World {
 
 	public:
 		Cell ***position;
-		World(double width, double height);
+		World(double width, double height, int percent, int richness);
 		~World();
 		bool inBounds(int x, int y);
+		int nestFood = 0;
 };

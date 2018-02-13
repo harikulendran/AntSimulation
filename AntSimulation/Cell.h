@@ -11,7 +11,7 @@ class Cell {
 		bool isFull();
 		void moveHere();
 		void leaveHere();
-		Cell();
+		Cell(int percent, int richness);
 
 	protected:
 		double EVAPORATION_RATE = 1.0 / 30.0;

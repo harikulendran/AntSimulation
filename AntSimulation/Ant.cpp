@@ -13,7 +13,7 @@ Ant::Ant(World* _world, int x, int y) : world(_world), cPos(x,y) {
 void Ant::move() {
 	int mod = (raiding) ? 1 : -1;
 	double pMax = (raiding) ? RAID_MAX : RETURN_MAX;
-	double pAmt = (raiding) ? RAID_AMOUNT : (hasPrey) ? RETURN_AMOUNT : 0;
+	double pAmt = (raiding) ? RAID_AMOUNT : (hasPrey) ? RETURN_AMOUNT : 5;
 
 	double pL = (world->inBounds(cPos.x + mod,cPos.y)) ? world->position[cPos.x + mod][cPos.y]->pLevel : 0;
 	double pR = (world->inBounds(cPos.x,cPos.y + mod)) ? world->position[cPos.x][cPos.y + mod]->pLevel : 0;
@@ -39,14 +39,17 @@ void Ant::move() {
 }
 
 void Ant::checkFood() {
+	if (cPos.x <= 30 && cPos.y <= 30) {
+		hasPrey = false;
+		raiding = true;
+		world->nestFood++;
+	}
+	if (hasPrey)
+		return;
 	if (currentLocation->source > 0) {
 		hasPrey = true;
 		raiding = false;
 		currentLocation->source--;
-	}
-	if (cPos.x == 0 && cPos.y == 0) {
-		hasPrey = false;
-		raiding = true;
 	}
 	if (cPos.x == 640 - 1 || cPos.y == 480 - 1) {
 		raiding = false;
