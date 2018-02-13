@@ -11,18 +11,22 @@ Ant::Ant(World* _world, int x, int y) : world(_world), cPos(x,y) {
 }
 
 void Ant::move() {
+	//set values depending on direction travelling
 	int mod = (raiding) ? 1 : -1;
 	double pMax = (raiding) ? RAID_MAX : RETURN_MAX;
 	double pAmt = (raiding) ? RAID_AMOUNT : (hasPrey) ? RETURN_AMOUNT : 5;
 
+	//get pheromone levels for left and right
 	double pL = (world->inBounds(cPos.x + mod,cPos.y)) ? world->position[cPos.x + mod][cPos.y]->pLevel : 0;
 	double pR = (world->inBounds(cPos.x,cPos.y + mod)) ? world->position[cPos.x][cPos.y + mod]->pLevel : 0;
 
+	//prob of moving
 	double pM = 0.5*(1 + tanh(((pL + pR) / 100.0) - 1));
 
 	if ((double)(rand() % 100) / 100.0 > pM)
 		return;
 
+	//prob of moving left
 	double probL = pow(5 + pL, 2) / (pow(5 + pL, 2) + pow(5 + pR, 2));
 
 	if ((rand() % 100) / 100.0 < probL) {

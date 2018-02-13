@@ -13,51 +13,55 @@ Display::Display(int i, bool low) {
 }
 
 void Display::run() {
-	int count = 0;
+	int timeStep = 0;
 	int antCount = 0;
+
 	World world{ 640,480,percentage,richness };
 	world.position[0][0] = new Nest{};
 	std::vector<Ant*> ants;
 
+	//init image
 	ALLEGRO_BITMAP* image = NULL;
 	image = al_create_bitmap(640, 480);
 	al_set_target_bitmap(image);
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	
-	int a = 0;
-
 	std::cout << "Simulating..." << std::endl;
 
-	while (count < 2000) {
+	while (timeStep < 2000) {
+		//generate new ants
 		if (!world.position[0][0]->isFull() && antCount < 10000000)
 			for (int i = 0; i < 10; i++) {
 				ants.push_back(new Ant{ &world,0,0 });
 				world.position[0][0]->popSize++;
 				antCount++;
 			}
+
+		//calculate all ant moves
 		for (Ant* a : ants) {
 			a->move();
 			a->checkFood();
 		}
-		int max = 640 * 480;
-
 		
+		//evaporate on all cells
 		for (int i = 0; i < 640; i++)
 			for (int j = 0; j < 480; j++)
 				if (world.position[i][j]->pLevel > 0)
 					world.position[i][j]->evaporate();
 
-		count++;
+		timeStep++;
 	}
 
 	std::cout << "Simulation Complete!" << std::endl << "Nest Food: " << world.nestFood << std::endl << "Drawing..." << std::endl;
 
+	//find max pheromone level for setting max colour
 	double maxP = 0;
 	for (int i = 0; i < 640; i++)
 		for (int j = 0; j < 480; j++)
 			if (world.position[i][j]->pLevel > 0)
 				maxP = (maxP < world.position[i][j]->pLevel) ? world.position[i][j]->pLevel : maxP;
 
+	//draw to image
 	for (int i = 0; i < 640; i++) {
 		for (int j = 0; j < 480; j++) {
 			if (world.position[i][j]->pLevel > 0) {

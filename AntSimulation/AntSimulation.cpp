@@ -18,6 +18,7 @@ int main()
 	al_init_primitives_addon();
 	al_init_image_addon();
 
+	//run 5 sims for each source type
 	for (int i = 0; i < 5; i++) {
 		Display disp{i,false};
 		disp.run();
