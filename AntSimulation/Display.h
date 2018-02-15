@@ -2,6 +2,9 @@
 
 #include <allegro5\allegro.h>
 #include <string>
+#include <vector>
+#include "World.h"
+#include "Ant.h"
 
 class Display {
 	public:
@@ -12,5 +15,10 @@ class Display {
 
 	public:
 		void run();
+		void animate();
 		Display(int i, bool low);
+
+	private:
+		void drawAgentsToImage(ALLEGRO_BITMAP* image, World* world, int count = -1);
+		void drawPheromoneToImage(ALLEGRO_BITMAP* image, World* world, int count = -1);
 };

@@ -21,9 +21,9 @@ int main()
 	//run 5 sims for each source type
 	for (int i = 0; i < 5; i++) {
 		Display disp{i,false};
-		disp.run();
+		disp.animate();
 		Display tisp{i,true};
-		tisp.run();
+		tisp.animate();
 		std::cout << std::endl;
 	}
 
